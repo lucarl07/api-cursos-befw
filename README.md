@@ -17,30 +17,31 @@ num botão de "Criar conta", etc - que demanda uma resposta do servidor, o segui
 Cliente -> requisição HTTP -> back-end -> resposta HTTP -> cliente
 ```
 
-Vamos exemplificar com o acesso à rota `GET /cursos` na nossa própria API.
+Vamos exemplificar com o acesso à rota `GET /cursos` da nossa própria API.
 
-1. **Envio da requisição para o servidor:** 
-2. **Validação e tratamento da requisição:**
-3. **Consulta ao banco de dados:**
-4. **Envio da resposta para o cliente:**
-5. **Tratamento final da resposta:**
+1. **Envio da requisição para o servidor:** O cliente manda uma requisição "Listar todos os cursos" para o servidor da 
+URL, chegando na camada de controle.
+1. **Processamento da requisição:** O controlador daquela rota endereça a requisição para o serviço e o método correspondente - neste caso,
+um método `listarCursos` em `CursoService`.
+1.  **Consulta ao banco de dados:** O serviço chama a camada de repositório correspondente para fazer a pesquisa de
+cursos no banco de dados, que por sua vez os retorna para a camada de serviço.
+1. **Tratamento e envio da resposta:** De volta no controlador, os dados são formatados em JSON (JavaScript Object 
+Notation) e enviados para o cliente.
 
 ## Responsabilidades do back-end
 
-Nesse modelo, nós abstraímos um pouco da possível complexidade presente no back-end (especialmente dentro da API) para
-falar de duas partes em específico: a **API** e o **banco de dados**.
-
-Uma API, ou **Application Programming Interface**, consiste num sistema intermediário entre uma interface de exibição
-(que existe no lado do cliente) e um conjunto de dados, definindo regras para acessá-los e devolvê-los, permitindo assim
-uma comunicação padronizada e segura no fluxo cliente e servidor. **O projeto presente nesse repositório *é uma API*,
-que usa a linguagem Java e o framework Spring**.
-
-No nosso fluxo, ao receber uma requisição HTTP, ela e quaisquer dados enviados com ela irão chegar para a API, que
-designará a operação para o módulo correspondente, podendo aceitá-la ou rejeitá-la com base em critérios (ex.: ao fazer
-login, campos `username` e `password` devem existir no corpo da requisição), restrições (a operação
-`DELETE /alunos/{alunoId}` só pode ser realizada por um administrador, tendo um token que identifica sua função no
-cabeçalho da *request*) e validações (para criar uma conta, o valor do campo `password` deve ter no mínimo 8 caracteres).
+1. Receber os dados enviados pelo cliente;
+2. Transformar os dados em um objeto Java;
+3. Verificar as regras do curso;
+4. Salvar o curso;
+5. Devolver uma resposta ao cliente.
 
 ## Contrato inicial da API
 
-(T.B.D)
+| Método | Rota         | Operação                | Resposta esperada               |
+|--------|--------------|-------------------------|---------------------------------|
+| GET    | /cursos      | Listar todos os cursos  | 200 OK                          |
+| GET    | /cursos/{id} | Buscar um curso pelo ID | 200 OK ou 404 Not Found         |
+| POST   | /cursos      | Cadastrar um curso      | 201 Created                     |
+| PUT    | /cursos/{id} | Atualizar um curso      | 200 OK ou 404 Not Found         |
+| DELET  | /cursos/{id} | Remover um curso        | 204 No Content ou 404 Not Found |
