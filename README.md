@@ -44,4 +44,4 @@ Notation) e enviados para o cliente.
 | GET    | /cursos/{id} | Buscar um curso pelo ID | 200 OK ou 404 Not Found         |
 | POST   | /cursos      | Cadastrar um curso      | 201 Created                     |
 | PUT    | /cursos/{id} | Atualizar um curso      | 200 OK ou 404 Not Found         |
-| DELET  | /cursos/{id} | Remover um curso        | 204 No Content ou 404 Not Found |
+| DELETE | /cursos/{id} | Remover um curso        | 204 No Content ou 404 Not Found |
