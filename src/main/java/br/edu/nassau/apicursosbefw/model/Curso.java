@@ -5,20 +5,10 @@ public class Curso {
     private String nome;
     private Integer cargaHoraria;
 
-    private static Long contadorCursos = 1L;
+    public Curso() {}
 
-    private void _setIdToNextNumber() {
-        this.id = contadorCursos++;
-    }
-
-    public Curso() {
-        _setIdToNextNumber();
-    }
-
-    public Curso(boolean autogenerateId, String nome, Integer cargaHoraria) {
-        if (autogenerateId) {
-            _setIdToNextNumber();
-        }
+    public Curso(Long id, String nome, Integer cargaHoraria) {
+        this.id = id;
         this.nome = nome;
         this.cargaHoraria = cargaHoraria;
     }

@@ -1,17 +1,20 @@
 package br.edu.nassau.apicursosbefw.service;
 
 import br.edu.nassau.apicursosbefw.model.Curso;
-import org.springframework.http.HttpStatus;
+import br.edu.nassau.apicursosbefw.repository.CursoRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CursoService {
-    private List<Curso> cursos = new ArrayList<>();
+    private final CursoRepository repository;
 
+    public CursoService(CursoRepository repository) {
+        this.repository = repository;
+    }
+
+    // Serviço de teste:
     public String olaMundo() {
         return "Olá, mundo!";
     }
@@ -20,43 +23,42 @@ public class CursoService {
         if (nome.isBlank()) {
             throw new RuntimeException("O nome deve ter um valor não-vazio.");
         }
-
         if (cargaHoraria <= 0) {
             throw new RuntimeException("A carga horária deve ser maior do que 0 (zero).");
         }
 
-        Curso novoCurso = new Curso(true, nome, cargaHoraria);
-        cursos.add(novoCurso);
-        return novoCurso;
+        return repository.criarCurso(nome, cargaHoraria);
     }
 
     public List<Curso> listarCursos() {
-        return cursos;
+        return repository.listarCursos();
     }
 
     public Curso buscarCursoPorId(Long id) {
-        return cursos.stream()
-            .filter(curso -> curso.getId().equals(id))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException(
-                "Não foi encontrado nenhum usuário de ID " + id + "."
-            ));
+        Curso curso = repository.buscarCursoPorId(id);
+
+        if (curso == null) {
+            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
+        }
+
+        return curso;
     }
 
     public Curso atualizarCurso(Long id, String nome, Integer cargaHoraria) {
-        Curso curso = this.buscarCursoPorId(id);
-        curso.setNome(nome);
-        curso.setCargaHoraria(cargaHoraria);
+        Curso curso = repository.atualizarCurso(id, nome, cargaHoraria);
+
+        if (curso == null) {
+            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
+        }
+
         return curso;
     }
 
     public void removerCurso(Long id) {
-        boolean cursoFoiRemovido = cursos.removeIf(curso -> curso.getId().equals(id));
+        boolean cursoFoiRemovido = repository.removerCurso(id);
 
         if (!cursoFoiRemovido) {
-            throw new RuntimeException(
-                "Não foi encontrado nenhum usuário de ID " + id + "."
-            );
+            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
         }
     }
 }
