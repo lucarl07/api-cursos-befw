@@ -46,16 +46,16 @@ public class CursoService {
 
     public Curso atualizarCurso(Long id, String nome, Integer cargaHoraria) {
         if (nome.isBlank()) {
-            throw new RuntimeException("O nome deve ter um valor não-vazio.");
+            throw new RuntimeException("400 : O nome deve ter um valor não-vazio.");
         }
         if (cargaHoraria <= 0) {
-            throw new RuntimeException("A carga horária deve ser maior do que 0 (zero).");
+            throw new RuntimeException("400 : A carga horária deve ser maior do que 0 (zero).");
         }
 
         Curso curso = repository.atualizarCurso(id, nome, cargaHoraria);
 
         if (curso == null) {
-            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
+            throw new RuntimeException("404 : Não foi encontrado nenhum usuário de ID " + id + ".");
         }
 
         return curso;
