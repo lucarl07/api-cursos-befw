@@ -3,6 +3,7 @@ package br.edu.nassau.apicursosbefw.controller;
 import br.edu.nassau.apicursosbefw.shared.CursoDTOs.*;
 import br.edu.nassau.apicursosbefw.model.Curso;
 import br.edu.nassau.apicursosbefw.service.CursoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class CursoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CriarCursoResponse criarCurso(@RequestBody CriarCursoRequest criarCursoDto) {
+    public CriarCursoResponse criarCurso(@Valid @RequestBody CriarCursoRequest criarCursoDto) {
         try {
             Curso novoCurso = cursoService.criarCurso(
                 criarCursoDto.nome(), criarCursoDto.cargaHoraria()

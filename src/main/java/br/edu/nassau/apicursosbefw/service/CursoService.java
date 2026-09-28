@@ -20,13 +20,6 @@ public class CursoService {
     }
 
     public Curso criarCurso(String nome, Integer cargaHoraria) {
-        if (nome.isBlank()) {
-            throw new RuntimeException("O nome deve ter um valor não-vazio.");
-        }
-        if (cargaHoraria <= 0) {
-            throw new RuntimeException("A carga horária deve ser maior do que 0 (zero).");
-        }
-
         return repository.criarCurso(nome, cargaHoraria);
     }
 
