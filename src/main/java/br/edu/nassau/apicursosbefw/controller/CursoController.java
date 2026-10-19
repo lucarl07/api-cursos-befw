@@ -72,11 +72,11 @@ public class CursoController {
         @PathVariable Long id, @Valid @RequestBody AtualizarCursoRequest atualizarCursoDto
     ) {
         Curso curso = cursoService.atualizarCurso(
-                id, atualizarCursoDto.nome(), atualizarCursoDto.cargaHoraria()
+            id, atualizarCursoDto.nome(), atualizarCursoDto.cargaHoraria()
         );
 
         return new AtualizarCursoResponse(
-                curso.getId(), curso.getNome(), curso.getCargaHoraria()
+            curso.getId(), curso.getNome(), curso.getCargaHoraria()
         );
     }
 
