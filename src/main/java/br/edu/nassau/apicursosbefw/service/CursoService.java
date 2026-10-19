@@ -39,13 +39,6 @@ public class CursoService {
     }
 
     public Curso atualizarCurso(Long id, String nome, Integer cargaHoraria) {
-        if (nome.isBlank()) {
-            throw new RuntimeException("400 : O nome deve ter um valor não-vazio.");
-        }
-        if (cargaHoraria <= 0) {
-            throw new RuntimeException("400 : A carga horária deve ser maior do que 0 (zero).");
-        }
-
         Curso curso = repository.atualizarCurso(id, nome, cargaHoraria);
 
         if (curso == null) {

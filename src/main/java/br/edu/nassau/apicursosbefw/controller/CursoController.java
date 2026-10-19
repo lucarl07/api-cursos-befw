@@ -51,7 +51,7 @@ public class CursoController {
             )
         );
 
-        return cursos;
+         return cursos;
     }
 
     @GetMapping("/{id}")
@@ -69,24 +69,15 @@ public class CursoController {
 
     @PutMapping("/{id}")
     public AtualizarCursoResponse atualizarCurso(
-        @PathVariable Long id, @RequestBody AtualizarCursoRequest atualizarCursoDto
+        @PathVariable Long id, @Valid @RequestBody AtualizarCursoRequest atualizarCursoDto
     ) {
-        try {
-            Curso curso = cursoService.atualizarCurso(
+        Curso curso = cursoService.atualizarCurso(
                 id, atualizarCursoDto.nome(), atualizarCursoDto.cargaHoraria()
-            );
+        );
 
-            return new AtualizarCursoResponse(
+        return new AtualizarCursoResponse(
                 curso.getId(), curso.getNome(), curso.getCargaHoraria()
-            );
-        } catch (RuntimeException ex) {
-            // Lógica primitiva para diferenciar os tipos de erros:
-            String[] exMessage = ex.getMessage().split(" : ");
-            int responseCode = Integer.parseInt(exMessage[0]);
-            String errorMsg = exMessage[1];
-
-            throw new ResponseStatusException(HttpStatusCode.valueOf(responseCode), errorMsg);
-        }
+        );
     }
 
     @DeleteMapping("/{id}")
