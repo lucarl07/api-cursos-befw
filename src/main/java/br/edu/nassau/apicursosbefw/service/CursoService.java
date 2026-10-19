@@ -1,5 +1,6 @@
 package br.edu.nassau.apicursosbefw.service;
 
+import br.edu.nassau.apicursosbefw.exception.CursoNaoEncontradoException;
 import br.edu.nassau.apicursosbefw.model.Curso;
 import br.edu.nassau.apicursosbefw.repository.CursoRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class CursoService {
         Curso curso = repository.buscarCursoPorId(id);
 
         if (curso == null) {
-            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
+            throw new CursoNaoEncontradoException(id);
         }
 
         return curso;
@@ -48,7 +49,7 @@ public class CursoService {
         Curso curso = repository.atualizarCurso(id, nome, cargaHoraria);
 
         if (curso == null) {
-            throw new RuntimeException("404 : Não foi encontrado nenhum usuário de ID " + id + ".");
+            throw new CursoNaoEncontradoException(id);
         }
 
         return curso;
@@ -58,7 +59,7 @@ public class CursoService {
         boolean cursoFoiRemovido = repository.removerCurso(id);
 
         if (!cursoFoiRemovido) {
-            throw new RuntimeException("Não foi encontrado nenhum usuário de ID " + id + ".");
+            throw new CursoNaoEncontradoException(id);
         }
     }
 }
